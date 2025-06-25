@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Heart, MessageCircle, Crown, Sparkles, X } from 'lucide-react';
+import { Heart, MessageCircle, Crown, Sparkles, X, Bell } from 'lucide-react';
 
 interface Notification {
   id: string;
