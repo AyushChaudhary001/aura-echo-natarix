@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import HomeFeed from "./pages/HomeFeed";
 import CommunityExplorer from "./pages/CommunityExplorer";
+import CommunityPage from "./pages/CommunityPage";
 import PostDetails from "./pages/PostDetails";
 import UserProfile from "./pages/UserProfile";
 import DirectMessages from "./pages/DirectMessages";
@@ -25,6 +26,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<HomeFeed />} />
             <Route path="/explore" element={<CommunityExplorer />} />
+            <Route path="/community/:id" element={<CommunityPage />} />
             <Route path="/post/:id" element={<PostDetails />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/messages" element={<DirectMessages />} />
