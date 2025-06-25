@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { MapPin, Globe, Sparkles } from 'lucide-react';
+import { MapPin, Globe, Sparkles, Upload, Camera } from 'lucide-react';
 
 interface CommunityCreationModalProps {
   children: React.ReactNode;
@@ -13,32 +13,48 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
   const [step, setStep] = useState(1);
   const [communityType, setCommunityType] = useState<'location-bound' | 'location-agnostic' | null>(null);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
-  const [location, setLocation] = useState('');
-  const [communityName, setCommunityName] = useState('');
-  const [description, setDescription] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    tagline: '',
+    location: '',
+    category: '',
+    allowAnonymous: false,
+    enableAura: true,
+    visibility: 'public'
+  });
+
+  const categories = [
+    'Fitness', 'Coding', 'Chill', 'Events', 'Food', 'Art', 'Music', 'Sports', 'Study', 'Gaming'
+  ];
 
   const handleLocationDetection = () => {
     setIsDetectingLocation(true);
-    // Simulate location detection
     setTimeout(() => {
-      setLocation('Mumbai, Maharashtra - 400001');
+      setFormData(prev => ({ ...prev, location: 'Dehradun, Uttarakhand - 248001' }));
       setIsDetectingLocation(false);
     }, 2000);
   };
 
   const handleCreateCommunity = () => {
     console.log('Creating community:', {
-      name: communityName,
-      description,
+      ...formData,
       type: communityType,
-      location: communityType === 'location-bound' ? location : null
+      location: communityType === 'location-bound' ? formData.location : null
     });
     // Reset form
     setStep(1);
     setCommunityType(null);
-    setLocation('');
-    setCommunityName('');
-    setDescription('');
+    setFormData({
+      name: '',
+      description: '',
+      tagline: '',
+      location: '',
+      category: '',
+      allowAnonymous: false,
+      enableAura: true,
+      visibility: 'public'
+    });
   };
 
   return (
@@ -46,10 +62,10 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="glass-card border-0 max-w-sm mx-auto rounded-3xl">
+      <DialogContent className="glass-card border-0 max-w-sm mx-auto rounded-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-center text-lg font-semibold">
-            {step === 1 ? 'Create Community' : 'Community Details'}
+            {step === 1 ? 'Create Your Community' : 'Community Details'}
           </DialogTitle>
         </DialogHeader>
 
@@ -71,7 +87,7 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
                   <MapPin size={20} className="text-white" />
                 </div>
                 <div className="text-left">
-                  <h3 className="font-medium text-sm">Location-Bound</h3>
+                  <h3 className="font-medium text-sm">📍 Location-Bound</h3>
                   <p className="text-xs text-muted-foreground">Connect with people nearby</p>
                 </div>
               </div>
@@ -89,7 +105,7 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
                   <Globe size={20} className="text-white" />
                 </div>
                 <div className="text-left">
-                  <h3 className="font-medium text-sm">Location-Agnostic</h3>
+                  <h3 className="font-medium text-sm">🌍 Location-Agnostic</h3>
                   <p className="text-xs text-muted-foreground">Connect globally by interests</p>
                 </div>
               </div>
@@ -99,12 +115,31 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
 
         {step === 2 && (
           <div className="space-y-4 p-2">
+            {/* Banner Upload */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Community Banner</label>
+              <div className="w-full h-24 glass-card-secondary rounded-xl border-2 border-dashed border-purple-200 flex items-center justify-center hover:bg-white/60 transition-colors cursor-pointer">
+                <div className="text-center">
+                  <Upload size={20} className="mx-auto mb-1 text-muted-foreground" />
+                  <p className="text-xs text-muted-foreground">Upload Banner</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Icon Upload */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Community Icon</label>
+              <div className="w-16 h-16 glass-card-secondary rounded-full border-2 border-dashed border-purple-200 flex items-center justify-center hover:bg-white/60 transition-colors cursor-pointer">
+                <Camera size={16} className="text-muted-foreground" />
+              </div>
+            </div>
+
             <div>
               <label className="text-sm font-medium mb-2 block">Community Name</label>
               <Input
-                placeholder="Enter community name"
-                value={communityName}
-                onChange={(e) => setCommunityName(e.target.value)}
+                placeholder="e.g., Bidholi Fitness"
+                value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 className="glass-card-secondary border-0"
               />
             </div>
@@ -113,10 +148,34 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
               <label className="text-sm font-medium mb-2 block">Description</label>
               <Input
                 placeholder="What's your community about?"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={formData.description}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 className="glass-card-secondary border-0"
               />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Tagline</label>
+              <Input
+                placeholder="A catchy tagline..."
+                value={formData.tagline}
+                onChange={(e) => setFormData(prev => ({ ...prev, tagline: e.target.value }))}
+                className="glass-card-secondary border-0"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium mb-2 block">Category</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                className="w-full glass-card-secondary border-0 rounded-lg px-3 py-2 text-sm"
+              >
+                <option value="">Select Category</option>
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
 
             {communityType === 'location-bound' && (
@@ -146,13 +205,59 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
                   
                   <Input
                     placeholder="Enter pincode or area"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
+                    value={formData.location}
+                    onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                     className="glass-card-secondary border-0"
                   />
                 </div>
               </div>
             )}
+
+            {/* Settings Toggles */}
+            <div className="space-y-3 pt-2">
+              <h4 className="text-sm font-medium">Community Settings</h4>
+              
+              <div className="flex items-center justify-between">
+                <span className="text-sm">Allow Anonymous Posting</span>
+                <button
+                  onClick={() => setFormData(prev => ({ ...prev, allowAnonymous: !prev.allowAnonymous }))}
+                  className={`w-12 h-6 rounded-full transition-colors ${
+                    formData.allowAnonymous ? 'bg-primary' : 'bg-gray-300'
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded-full bg-white transition-transform ${
+                    formData.allowAnonymous ? 'translate-x-6' : 'translate-x-0.5'
+                  }`} />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-sm">Enable Aura Points</span>
+                <button
+                  onClick={() => setFormData(prev => ({ ...prev, enableAura: !prev.enableAura }))}
+                  className={`w-12 h-6 rounded-full transition-colors ${
+                    formData.enableAura ? 'bg-primary' : 'bg-gray-300'
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded-full bg-white transition-transform ${
+                    formData.enableAura ? 'translate-x-6' : 'translate-x-0.5'
+                  }`} />
+                </button>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-2 block">Visibility</label>
+                <select
+                  value={formData.visibility}
+                  onChange={(e) => setFormData(prev => ({ ...prev, visibility: e.target.value }))}
+                  className="w-full glass-card-secondary border-0 rounded-lg px-3 py-2 text-sm"
+                >
+                  <option value="public">Public</option>
+                  <option value="private">Private</option>
+                  <option value="verified">Verified Only</option>
+                </select>
+              </div>
+            </div>
 
             <div className="flex gap-2 pt-4">
               <Button
@@ -164,11 +269,11 @@ const CommunityCreationModal = ({ children }: CommunityCreationModalProps) => {
               </Button>
               <Button
                 onClick={handleCreateCommunity}
-                disabled={!communityName || !description || (communityType === 'location-bound' && !location)}
+                disabled={!formData.name || !formData.description || (communityType === 'location-bound' && !formData.location)}
                 className="flex-1"
               >
                 <Sparkles size={16} className="mr-2" />
-                Create
+                Create Community
               </Button>
             </div>
           </div>
