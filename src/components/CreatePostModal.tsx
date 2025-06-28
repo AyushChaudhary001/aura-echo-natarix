@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { ImageIcon, MapPin } from 'lucide-react';
+import { useAppContext } from '../contexts/AppContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface CreatePostModalProps {
   children: React.ReactNode;
@@ -12,6 +13,8 @@ interface CreatePostModalProps {
 }
 
 const CreatePostModal = ({ children, currentMood = 'chill' }: CreatePostModalProps) => {
+  const { createPost } = useAppContext();
+  const { toast } = useToast();
   const [content, setContent] = useState('');
   const [selectedMood, setSelectedMood] = useState(currentMood);
   const [image, setImage] = useState<string | null>(null);
@@ -21,7 +24,22 @@ const CreatePostModal = ({ children, currentMood = 'chill' }: CreatePostModalPro
   const moods = ['chill', 'productive', 'cranky', 'lost', 'excited', 'zen'];
 
   const handleSubmit = () => {
-    console.log('Creating post:', { content, mood: selectedMood, image, location });
+    if (!content.trim()) {
+      toast({
+        title: "Error",
+        description: "Please write something before posting!",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    createPost(content, selectedMood, image || undefined, location || undefined);
+    
+    toast({
+      title: "Success",
+      description: "Your post has been shared!",
+    });
+
     setContent('');
     setImage(null);
     setLocation('');

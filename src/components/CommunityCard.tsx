@@ -2,6 +2,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Users, Settings } from 'lucide-react';
+import { useAppContext } from '../contexts/AppContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface Community {
   id: string;
@@ -22,6 +24,8 @@ interface CommunityCardProps {
 
 const CommunityCard = ({ community, isModerator = false }: CommunityCardProps) => {
   const navigate = useNavigate();
+  const { joinCommunity } = useAppContext();
+  const { toast } = useToast();
   
   const moodColors = {
     cranky: 'bg-mood-cranky',
@@ -38,7 +42,11 @@ const CommunityCard = ({ community, isModerator = false }: CommunityCardProps) =
 
   const handleJoinClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log('Joining community:', community.id);
+    joinCommunity(community.id);
+    toast({
+      title: "Joined community!",
+      description: `Welcome to ${community.name}`,
+    });
   };
 
   const handleSettingsClick = (e: React.MouseEvent) => {
