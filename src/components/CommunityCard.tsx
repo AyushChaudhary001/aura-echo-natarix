@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Users, Settings } from 'lucide-react';
 
 interface Community {
@@ -20,6 +21,8 @@ interface CommunityCardProps {
 }
 
 const CommunityCard = ({ community, isModerator = false }: CommunityCardProps) => {
+  const navigate = useNavigate();
+  
   const moodColors = {
     cranky: 'bg-mood-cranky',
     chill: 'bg-mood-chill',
@@ -29,8 +32,25 @@ const CommunityCard = ({ community, isModerator = false }: CommunityCardProps) =
     zen: 'bg-mood-zen',
   };
 
+  const handleCardClick = () => {
+    navigate(`/community/${community.id}`);
+  };
+
+  const handleJoinClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log('Joining community:', community.id);
+  };
+
+  const handleSettingsClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log('Opening settings for:', community.id);
+  };
+
   return (
-    <div className="glass-card rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02]">
+    <div 
+      className="glass-card rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
+      onClick={handleCardClick}
+    >
       <div className="relative h-32 overflow-hidden">
         <img
           src={community.image}
@@ -53,7 +73,10 @@ const CommunityCard = ({ community, isModerator = false }: CommunityCardProps) =
         </div>
         
         {isModerator && (
-          <button className="absolute top-2 right-2 p-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/50 transition-colors">
+          <button 
+            onClick={handleSettingsClick}
+            className="absolute top-2 right-2 p-2 bg-black/30 backdrop-blur-sm rounded-full hover:bg-black/50 transition-colors"
+          >
             <Settings size={16} className="text-white" />
           </button>
         )}
@@ -75,7 +98,10 @@ const CommunityCard = ({ community, isModerator = false }: CommunityCardProps) =
             <Users size={14} />
             <span className="text-xs">{community.members} members</span>
           </div>
-          <button className="px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-primary/90 transition-colors">
+          <button 
+            onClick={handleJoinClick}
+            className="px-3 py-1 bg-primary text-primary-foreground rounded-full text-xs font-medium hover:bg-primary/90 transition-colors"
+          >
             Join
           </button>
         </div>

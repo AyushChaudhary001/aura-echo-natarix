@@ -11,6 +11,7 @@ import PostDetails from "./pages/PostDetails";
 import UserProfile from "./pages/UserProfile";
 import DirectMessages from "./pages/DirectMessages";
 import NotificationCenter from "./pages/NotificationCenter";
+import CommunityPage from "./pages/CommunityPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/" element={<HomeFeed />} />
             <Route path="/explore" element={<CommunityExplorer />} />
             <Route path="/post/:id" element={<PostDetails />} />
+            <Route path="/community/:id" element={<CommunityPage />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/messages" element={<DirectMessages />} />
             <Route path="/notifications" element={<NotificationCenter />} />

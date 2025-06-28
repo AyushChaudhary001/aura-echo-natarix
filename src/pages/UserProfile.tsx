@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Settings, Crown, TrendingUp } from 'lucide-react';
+import MoodJourneyChart from '../components/MoodJourneyChart';
+import AchievementsBadges from '../components/AchievementsBadges';
 
 const UserProfile = () => {
   const userStats = {
@@ -20,15 +22,16 @@ const UserProfile = () => {
   ];
 
   const badges = [
-    { name: 'Early Adopter', icon: '🌟', description: 'One of the first 1000 users' },
-    { name: 'Mood Master', icon: '🎭', description: 'Experienced all mood states' },
-    { name: 'Community Builder', icon: '🏗️', description: 'Created 3+ communities' },
+    { name: 'Early Adopter', icon: '🌟', description: 'One of the first 1000 users', earned: true },
+    { name: 'Mood Master', icon: '🎭', description: 'Experienced all mood states', earned: true },
+    { name: 'Community Builder', icon: '🏗️', description: 'Created 3+ communities', earned: false },
+    { name: 'Aura Legend', icon: '💫', description: 'Reached 5000+ aura points', earned: false },
   ];
 
   return (
     <div className="space-y-6 animate-glass-fade-in">
       {/* Profile Header */}
-      <div className="glass-card p-6 rounded-2xl text-center">
+      <div className="glass-card p-6 rounded-2xl text-center relative">
         <div className="relative inline-block mb-4">
           <img
             src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop&crop=face"
@@ -61,44 +64,11 @@ const UserProfile = () => {
         </button>
       </div>
 
-      {/* Mood Tracking */}
-      <div className="glass-card p-4 rounded-2xl">
-        <h3 className="font-semibold mb-4 flex items-center gap-2">
-          <TrendingUp size={18} className="text-blue-500" />
-          Mood Journey
-        </h3>
-        <div className="space-y-3">
-          {moodHistory.map((day, index) => (
-            <div key={index} className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full bg-mood-${day.mood}`}></div>
-                <span className="text-sm">{day.date}</span>
-                <span className="text-xs text-muted-foreground capitalize">{day.mood}</span>
-              </div>
-              <span className="text-xs text-muted-foreground">{day.posts} posts</span>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Mood Journey */}
+      <MoodJourneyChart moodHistory={moodHistory} />
 
-      {/* Badges */}
-      <div className="glass-card p-4 rounded-2xl">
-        <h3 className="font-semibold mb-4 flex items-center gap-2">
-          <Crown size={18} className="text-yellow-500" />
-          Achievements
-        </h3>
-        <div className="grid gap-3">
-          {badges.map((badge, index) => (
-            <div key={index} className="glass-card-secondary p-3 rounded-xl flex items-center gap-3">
-              <span className="text-2xl">{badge.icon}</span>
-              <div>
-                <h4 className="font-medium text-sm">{badge.name}</h4>
-                <p className="text-xs text-muted-foreground">{badge.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      {/* Achievements */}
+      <AchievementsBadges badges={badges} />
 
       {/* Recent Activity */}
       <div className="glass-card p-4 rounded-2xl">

@@ -2,16 +2,18 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import CreatePostModal from './CreatePostModal';
 
 const FloatingActionButton = () => {
   return (
-    <Button
-      className="floating-action-btn animate-float"
-      size="icon"
-      onClick={() => console.log('Create post')}
-    >
-      <Plus size={24} className="text-primary" />
-    </Button>
+    <CreatePostModal>
+      <Button
+        className="floating-action-btn animate-float"
+        size="icon"
+      >
+        <Plus size={24} className="text-primary-foreground" />
+      </Button>
+    </CreatePostModal>
   );
 };
 
