@@ -1,5 +1,8 @@
+
 import React from 'react';
-import { Heart, MessageCircle, Crown, Sparkles, X, Bell } from 'lucide-react';
+import { Heart, MessageCircle, Crown, Sparkles, X, Bell, UserPlus } from 'lucide-react';
+import { useAppContext } from '../contexts/AppContext';
+import FriendRequestCard from './FriendRequestCard';
 
 interface Notification {
   id: string;
@@ -15,6 +18,9 @@ interface NotificationDropdownProps {
 }
 
 const NotificationDropdown = ({ onClose }: NotificationDropdownProps) => {
+  const { friendRequests } = useAppContext();
+  const pendingRequests = friendRequests.filter(req => req.status === 'pending');
+
   const notifications: Notification[] = [
     {
       id: '1',
@@ -83,6 +89,24 @@ const NotificationDropdown = ({ onClose }: NotificationDropdownProps) => {
         </div>
         
         <div className="overflow-y-auto max-h-80">
+          {/* Friend Requests Section */}
+          {pendingRequests.length > 0 && (
+            <div className="p-3 border-b border-white/10">
+              <div className="flex items-center gap-2 mb-3">
+                <UserPlus size={16} className="text-blue-500" />
+                <h4 className="text-sm font-medium">Friend Requests</h4>
+              </div>
+              <div className="space-y-2">
+                {pendingRequests.map((request) => (
+                  <div key={request.id} className="bg-white/10 rounded-lg p-2">
+                    <FriendRequestCard request={request} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Regular Notifications */}
           {notifications.map((notification) => (
             <div
               key={notification.id}
