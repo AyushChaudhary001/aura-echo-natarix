@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import MoodSelector from '../components/MoodSelector';
 import AIAgentCard from '../components/AIAgentCard';
 import PostCard from '../components/PostCard';
-import { Sparkles, TrendingUp, Users } from 'lucide-react';
+import CommunityHighlights from '../components/CommunityHighlights';
+import { Sparkles } from 'lucide-react';
 import { useAppContext } from '../contexts/AppContext';
 import NotificationBell from '../components/NotificationBell';
 
@@ -20,7 +21,7 @@ const HomeFeed = () => {
 
   return (
     <div className="space-y-6 animate-glass-fade-in">
-      {/* Enhanced Header */}
+      {/* Header */}
       <div className="glass-card rounded-3xl p-6 bg-gradient-to-br from-purple-500/10 to-blue-500/10">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
@@ -37,41 +38,19 @@ const HomeFeed = () => {
           <NotificationBell />
         </div>
         
-        {/* Stats Cards */}
-        <div className="grid grid-cols-3 gap-3 mb-4">
-          <div className="glass-card-secondary rounded-2xl p-3 text-center">
-            <div className="text-purple-600 mb-1">
-              <Sparkles size={20} className="mx-auto" />
-            </div>
-            <div className="text-lg font-bold text-purple-600">{currentUser.aura}</div>
-            <div className="text-xs text-muted-foreground">Aura</div>
-          </div>
-          <div className="glass-card-secondary rounded-2xl p-3 text-center">
-            <div className="text-blue-600 mb-1">
-              <TrendingUp size={20} className="mx-auto" />
-            </div>
-            <div className="text-lg font-bold text-blue-600">+12</div>
-            <div className="text-xs text-muted-foreground">Today</div>
-          </div>
-          <div className="glass-card-secondary rounded-2xl p-3 text-center">
-            <div className="text-green-600 mb-1">
-              <Users size={20} className="mx-auto" />
-            </div>
-            <div className="text-lg font-bold text-green-600">247</div>
-            <div className="text-xs text-muted-foreground">Friends</div>
-          </div>
-        </div>
-        
         <p className="text-sm text-muted-foreground text-center">
           How are you feeling today? Share your vibe with the community ✨
         </p>
       </div>
 
-      {/* Enhanced Mood Selector */}
+      {/* Mood Selector */}
       <div className="glass-card rounded-3xl p-4">
         <h3 className="text-lg font-semibold mb-3 text-center">Choose Your Mood</h3>
         <MoodSelector selectedMood={selectedMood} onMoodChange={setSelectedMood} />
       </div>
+
+      {/* Community Highlights */}
+      <CommunityHighlights />
 
       {/* AI Agent Card */}
       <AIAgentCard currentMood={selectedMood} />

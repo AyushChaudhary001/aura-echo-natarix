@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { Heart, MessageCircle, Crown, Sparkles, X, Bell, UserPlus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../contexts/AppContext';
 import FriendRequestCard from './FriendRequestCard';
 
@@ -18,6 +18,7 @@ interface NotificationDropdownProps {
 }
 
 const NotificationDropdown = ({ onClose }: NotificationDropdownProps) => {
+  const navigate = useNavigate();
   const { friendRequests } = useAppContext();
   const pendingRequests = friendRequests.filter(req => req.status === 'pending');
 
@@ -64,6 +65,11 @@ const NotificationDropdown = ({ onClose }: NotificationDropdownProps) => {
       case 'aura': return <Sparkles size={16} className="text-purple-500" />;
       default: return <Bell size={16} className="text-gray-500" />;
     }
+  };
+
+  const handleViewAll = () => {
+    navigate('/notifications');
+    onClose();
   };
 
   return (
@@ -142,7 +148,10 @@ const NotificationDropdown = ({ onClose }: NotificationDropdownProps) => {
         </div>
         
         <div className="p-3 border-t border-white/20">
-          <button className="w-full text-center text-sm text-primary hover:underline">
+          <button 
+            onClick={handleViewAll}
+            className="w-full text-center text-sm text-primary hover:underline"
+          >
             View all notifications
           </button>
         </div>
