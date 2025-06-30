@@ -84,7 +84,7 @@ const UserProfile = () => {
       />
 
       {/* Main Content Tabs */}
-      <Tabs defaultValue="mood" className="space-y-4">
+      <Tabs defaultValue="posts" className="space-y-4">
         <TabsList className="grid w-full grid-cols-2 glass-card">
           <TabsTrigger value="mood" className="data-[state=active]:glass-card-secondary">
             Mood & Achievements
