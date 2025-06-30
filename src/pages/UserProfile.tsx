@@ -33,16 +33,14 @@ const UserProfile = () => {
       {/* Profile Header */}
       <div className="glass-card p-6 rounded-2xl text-center relative">
         <div className="relative inline-block mb-4">
-          <img
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&h=120&fit=crop&crop=face"
-            alt="Profile"
-            className="w-20 h-20 rounded-full object-cover mx-auto"
-          />
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center mx-auto">
+            <span className="text-2xl text-white font-bold">A</span>
+          </div>
           <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-mood-productive rounded-full border-2 border-white"></div>
         </div>
         
-        <h2 className="text-xl font-bold mb-1">rahul_dev</h2>
-        <p className="text-sm text-muted-foreground mb-4">Mumbai • Joined 3 months ago</p>
+        <h2 className="text-xl font-bold mb-1">anonymous_user</h2>
+        <p className="text-sm text-muted-foreground mb-4">Location Hidden • Joined 3 months ago</p>
         
         <div className="flex items-center justify-center gap-6 mb-4">
           <div className="text-center">
@@ -82,7 +80,7 @@ const UserProfile = () => {
             </div>
           </div>
           <div className="glass-card-secondary p-3 rounded-xl">
-            <p className="text-sm mb-2">Mumbai's weather is perfect for coding outdoors...</p>
+            <p className="text-sm mb-2">Weather is perfect for coding outdoors...</p>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span>1d ago</span>
               <span className="mood-badge bg-mood-chill text-white">chill</span>
